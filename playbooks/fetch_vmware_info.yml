@@ -1,0 +1,6 @@
+---
+- name: Fetch VMware VM information
+  hosts: vmware
+  gather_facts: no
+  roles:
+    - vmware_info

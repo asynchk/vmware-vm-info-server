@@ -1,0 +1,32 @@
+---
+- name: Gather information about a specific VM
+  community.vmware.vmware_vm_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ lookup('file', '/run/secrets/vcenter_username') }}"
+    password: "{{ lookup('file', '/run/secrets/vcenter_password') }}"
+    validate_certs: no
+   # vm_id: "{{ vm_id }}"
+  register: vm_info
+
+- name: Gather additional VM guest information
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ lookup('file', '/run/secrets/vcenter_username') }}"
+    password: "{{ lookup('file', '/run/secrets/vcenter_password') }}"
+    validate_certs: no
+   # vm_id: "{{ vm_id }}"
+  register: vm_guest_info
+
+- name: Save VM information to HTML file
+  template:
+    src: vm_info.html.j2
+    dest: /tmp/vm_info.html
+
+- name: Save last updated time
+  shell: date -u +"%Y-%m-%d %H:%M:%S"
+  register: last_updated_time
+
+- name: Save last updated time to file
+  copy:
+    content: "{{ last_updated_time.stdout }}"
+    dest: /tmp/last_updated_time.txt

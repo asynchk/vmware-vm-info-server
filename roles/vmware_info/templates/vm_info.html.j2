@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VM Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .info {
+            margin-bottom: 20px;
+        }
+        .info h2 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+        .info p {
+            margin: 5px 0;
+            color: #777;
+        }
+        .info .highlight {
+            color: #333;
+            font-weight: bold;
+        }
+        .updated-time {
+            text-align: center;
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VM Information</h1>
+        <div class="info">
+            <h2>Status:</h2>
+            <p class="highlight">{{ vm_info.virtual_machines[0].power_state }}</p>
+        </div>
+        <div class="info">
+            <h2>CPU Usage:</h2>
+            <p class="highlight">{{ vm_info.virtual_machines[0].cpu_usage }} MHz</p>
+        </div>
+        <div class="info">
+            <h2>RAM Usage:</h2>
+            <p class="highlight">{{ vm_info.virtual_machines[0].memory_usage }} MB</p>
+        </div>
+        <div class="info">
+            <h2>Uptime:</h2>
+            <p class="highlight">{{ vm_guest_info.guest_info.uptime_seconds | int | timedelta }}</p>
+        </div>
+        <div class="info">
+            <h2>Disk Info:</h2>
+            <p>Total: <span class="highlight">{{ vm_info.virtual_machines[0].disk_capacity }} GB</span></p>
+            <p>Used: <span class="highlight">{{ vm_info.virtual_machines[0].disk_usage }} GB</span></p>
+        </div>
+        <div class="info">
+            <h2>Network Info:</h2>
+            <p>IP Address: <span class="highlight">{{ vm_info.virtual_machines[0].guest_ip_address }}</span></p>
+            <p>MAC Address: <span class="highlight">{{ vm_info.virtual_machines[0].mac_address }}</span></p>
+        </div>
+        <div class="updated-time">
+            <p>Last Updated: {{ lookup('file', '/tmp/last_updated_time.txt') }} UTC</p>
+        </div>
+    </div>
+</body>
+</html>

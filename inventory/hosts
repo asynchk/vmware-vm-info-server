@@ -1,0 +1,2 @@
+[vmware]
+localhost ansible_connection=local
